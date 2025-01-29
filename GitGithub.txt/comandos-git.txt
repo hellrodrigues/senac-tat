@@ -1,0 +1,4 @@
+git pull é usado para atualizar o repositório local com as mudanças feitas no repositório remoto.
+git status mostra o estado atual do seu repositório local. Ele informa quais arquivos foram modificados, quais estão preparados para o commit (stage), quais não foram rastreados ainda e se há algum commit pendente
+ git add . adiciona todas as alterações (novos arquivos, arquivos modificados e deletados) no diretório atual e seus subdiretórios à área de preparação (staging area)
+git push envia os commits do seu repositório local para o repositório remoto, atualizando a versão remota com as mudanças que você fez localmente.
