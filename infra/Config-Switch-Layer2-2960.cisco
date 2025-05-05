@@ -21,7 +21,7 @@ enable
         enable secret 123@senac       
         !Criar Usuários e Senhas    
         username senac secret 123@senac
-        username pedroh password 123@senac
+        username hellen password 123@senac
         username admin privilege 15 secret 123@senac       
         !Desabilitar o CDP e LLDP
         no cdp run
