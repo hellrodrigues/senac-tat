@@ -1,0 +1,35 @@
+enable
+   
+    !VERSAO DO CISCO IOS
+    show version
+    
+    !VERSAO DO SISTEMA OPERACIONAL
+    show boot 
+
+    !CONTEUDO FLASH
+    show flash:/
+
+    !CONTEUDO DA NVRAM
+    dir nvram:/
+
+    !============================================
+
+    !começando os backup do switch
+!memoria RAM para NVRAM
+    copy running-config startup-config
+
+    !memoria RAM para FLASH
+    copy running-config flash
+    show flash:
+
+    !memoria NVRAM para TFTP
+    copy startup-config tftp
+
+    !memoria flash para TFTP
+    copy flash: tftp:
+
+    !memoria RAM para TEXTO
+    show running-config
+
+
+
