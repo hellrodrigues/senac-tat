@@ -1,0 +1,25 @@
+!VLAN numero: 0 ate 4095
+!VLAN nao pode usar: 0-1
+!VLAN criar: 1-1001
+
+  enable
+    configure terminal
+       vlan 10
+           name FIN
+       vlan 20
+           name EST
+       vlan  30
+           name  FAT
+       vlan  40
+           name  GER
+       vlan  50
+           name SERVER
+       vlan 60
+           name  WIFI
+      vlan  99
+           name  SVI
+
+    end
+    write
+
+    show running brief
