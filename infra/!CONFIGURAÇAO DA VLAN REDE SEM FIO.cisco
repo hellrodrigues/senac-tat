@@ -1,0 +1,70 @@
+!CONFIGURAÇAO DA VLAN REDE SEM FIO
+
+     enable
+      configure terminal
+         
+           interface range Gigabitethernet 1/0/20-23
+              description VLAN 60 dos Access Point
+              switchport mode Access
+              switchport nonegotiate
+              switchport access vlan 60
+              end
+write 
+copy run star
+show running-config
+show vlan brief
+
+________________________________________________________________________________
+
+!!CONFIGURAÇAO DA VLAN REDE SEM FIO
+
+     enable
+      configure terminal
+         interface range gigaethernet 1/0/5-9, gigabitethernet 1/0/14-19, gigabitethernet 1/0/21-23, gigabitethernet 1/1/1-4
+         description interfaces desligadas 
+         shutdown
+         end
+write 
+show running-config
+show ip interface brief
+    
+__________________________________________________________________________________________________________________
+
+!configuraçao do switch 2960 (LADO ESQUERDO)
+
+enable
+    configure terminal
+       interface range fastethernet 0/1-4
+       description VLAN 10 financeiro
+       switchport mode access
+       switchport nonegotiate 
+       switchport access vlan 10
+       exit
+
+    interface range fastethernet 0/5-9
+    description VLAN 20 estoque
+    switchport mode access
+    switchport nonegotiate
+    switchport access vlan 20
+    exit 
+
+    interface range fastethernet 0/10-14
+    description VLAN 30 financeiro
+    switchport mode access
+    switchport nonegotiate
+    switchport access vlan 30
+    exit
+
+    interface range fastethernet 0/15-20
+    description VLAN 40 gerencia
+    switchport mode access
+    switchport nonegotiate
+    switchport access vlan 40
+    exit
+
+interface range fastethernet 0/2-4, fastethernet 0/6-9, fastethernet 0/11-14, fastethernet 0/16-22
+description interfaces desligadas 
+shutdown
+end
+copy run star
+

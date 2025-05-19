@@ -1,0 +1,29 @@
+!configurando os trunk (troncos) no switch 3650
+
+enable
+  configure terminal
+     interface range gigabitethernet 1/0/1-9
+       description interface de trunk
+       switchport mode trunk
+       switchport nonegotiate
+       end
+write
+
+copy running-config startup-config
+show running-config 
+show interfaces status
+show interfaces trunk
+
+__________________________________________________________________________________________________________________
+ 
+!configuraçao do switch 2960 (dois lados)
+
+enable 
+   configure terminal 
+      interface range gigabitethernet 0/1-2, fastethernet 0/23-24
+      description interface de trunk
+      switchport mode trunk
+      switchport nonegotiate
+      end
+
+      copy running-config startup-configs
