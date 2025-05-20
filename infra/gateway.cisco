@@ -1,0 +1,45 @@
+!configuraçao dos gateway no switch 3650
+
+enable 
+   configure terminal
+
+   ip routing 
+   interface vlan 10
+   description gateway vlan 10
+   ip address 172.16.0.158  255.255.255.224
+   no shutdown
+   exit
+
+   interface vlan 20
+   description gateway vlan 20
+   ip address 172.16.0.190  255.255.255.224
+   no shutdown
+   exit
+
+   interface vlan 30
+   description gateway vlan 30
+   ip address 172.16.0.222  255.255.255.224
+   no shutdown
+   exit
+
+   interface vlan 40
+   description gateway vlan 40
+   ip address 172.16.0.254  255.255.255.224
+   no shutdown
+   exit
+
+   interface vlan 50
+   description gateway vlan 50
+   ip address 172.16.0.62  255.255.255.224
+   no shutdown
+   exit
+
+   interface vlan 60
+   description gateway vlan 60
+   ip address 172.16.0.94  255.255.255.224
+   no shutdown
+   end
+
+write
+
+copy running-config startup-config
