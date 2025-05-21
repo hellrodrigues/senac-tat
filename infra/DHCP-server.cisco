@@ -1,0 +1,68 @@
+!configurando a pesquisa (ajuda) do DHCP server
+
+enable 
+    configure terminal
+       interface vlan 10
+         !configurar ajuda do DHCP
+
+          ip helper-address 172.16.0.33
+          end
+    copy running-config startup-config 
+    WR
+
+    =====================================================================
+
+    !INTERFACE DE ROTEADOR
+
+    !CONFIGURACAO DA INTERFACE ROTEADA
+
+     enable
+          configure terminal
+            interface gigabitethernet 1/0/24
+               no switchport 
+               description Interface com router 4321
+               ip address 172.16.0.29 255.255.255.224
+               end
+
+        write
+
+        ======================================================
+
+        !configuraçao do gateway de saida
+
+        enable
+            configure terminal
+            ip default-gateway 172.16.0.30
+            end 
+        write
+
+        =================================================================
+
+        !configuracao do roteador 4321 interface LAN
+
+        enable
+           configure terminal
+               interface gigabitethernet 0/0/1
+               description Interface com switch 3650
+               ip address 172.16.0.30 255.255.255.224
+               no shutdown
+               end
+        write
+
+=====================================================================
+
+!rota estatica switch/router
+
+!configuraçao de interface de WAN router 4321
+
+enable
+    configure terminal
+        interface gigabitethernet 0/0/0
+        media-type sfp
+        description interface Wan com router 1941
+        ip address 10.0.0.2 255.255.255.252
+        no shutdown
+        end
+    write
+
+
