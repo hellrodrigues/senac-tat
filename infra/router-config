@@ -7,7 +7,7 @@ exit
 
 
 int s0/1
-ip (IP DA DCE OU DTE) (IP DA SERIAL)
+ip add (IP DA DCE OU DTE) (IP DA SERIAL)
 description PORTA WAN que liga SP com RJ
 no shutdown 
 clock rate 128000
