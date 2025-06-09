@@ -1,0 +1,263 @@
+enable
+  
+clock set 14:00:00 02 june 2025
+
+  configure terminal
+
+ hostname sw-g03
+
+    !Habilitar o serviço de Criptografia de Senhas do Tipo-7 Password 
+    service password-encryption
+
+    !Habilitar o serviço de marcação de Data/Hora detalhado nos Logs
+    service timestamps log datetime msec
+
+    !Habilitando o serviço de marcação de Data/Hora detalhado nos Logs do Debug
+    service timestamps debug datetime msec
+
+    !Verificar tentativas de conexão simultâneas, fazer o bloqueio de um
+    !período determinado de tempo, proteção contra Brute Force
+    login block-for 120 attempts 4 within 60
+
+    !Desativar a resolução de nomes de domínio
+    no ip domain-lookup
+
+    !Configuração do Banner da mensagem do dia
+    banner motd #AVISO: acesso autorizado somente a funcionarios#
+
+    !Habilitar a senha do Tipo-5 secret para o modo enable privilegiado
+    !(#02_ Usuário e Senha padrão dos Switches e Routers Cisco de cada Grupo:)
+    enable secret 123@senac
+
+    !Criação dos usuários, senhas do Tipo-5 e privilégios diferenciados
+    !(#02_ Usuário e Senha padrão dos Switches e Routers Cisco de cada Grupo:)
+    username hellen privilege 15 secret 123@senac
+    username pedroh privilege 15 secret 123@senac
+    username dantas privilege 15 secret 123@senac
+
+    
+    !globalmente no Switch e Router Cisco, desabilitar o CDP ou LLDP garante a segurança
+    !de informações de equipamentos na rede.
+    no cdp run
+    no lldp run
+
+    !Acessando a linha console
+    line console 0
+
+      !Habilitando senha do Tipo-7 Password
+      !(#02_ Usuário e Senha padrão dos Switches e Routers Cisco de cada Grupo:)
+      password 123@senac
+
+      !Forçando fazer login com usuário e senha
+      login local
+
+      !Sincronizando os logs na tela
+      logging synchronous
+
+      !Habilitando o tempo de inatividade do console
+      exec-timeout 5 30
+
+      !Saindo de todos os níveis
+      end
+
+  !Salvando as configurações
+  copy running-config startup-config
+
+  ============================================================================================================================================================================
+
+enable
+  configure terminal
+
+    !Acessando as linhas virtuais
+    line vty 0 4
+
+      !Habilitando senha do tipo Password Tipo-7
+      !(#02_ Usuário e Senha padrão dos Switches e Routers Cisco de cada Grupo:)
+      password ????
+
+      !Forçando fazer login com usuário e senha local
+      login local 
+
+      !Sincronizando os logs na tela
+      logging synchronous
+
+      !Habilitando o tempo de inatividade do terminal
+      exec-timeout 5 30
+
+      !Configuração do tipo de protocolo de transporte de entrada
+      transport input ssh
+
+      !Saindo de todos os níveis
+      end
+
+  !Salvando as configurações
+  copy running-config startup-config
+
+  !Visualizando as configurações
+  show running-config
+
+=============================================================================
+
+enable
+  configure terminal
+
+    !Configuração do gateway padrão IPv4 do SVI
+    !(QUARTA ETAPA: Determinação dos Endereços de SVI (Switch Virtual Interface) e Gateway de cada Grupo)
+    ip default-gateway 172.16.30.254
+
+    !Configuração da interface virtual VLAN SVI
+    !(TERCEIRA ETAPA: Determinação das Redes (Sub-Redes) e VLAN (Virtual-LAN) de Cada Grupo)
+    interface vlan 30
+
+      !Configuração da descrição
+      description Interface SVI de Gerenciamento do Grupo-03
+
+      !Configuração do endereçamento IPv4 do SVI
+      !(QUARTA ETAPA: Determinação dos Endereços de SVI (Switch Virtual Interface) e Gateway de cada Grupo)
+      ip address 172.16.30.253 255.255.255.0
+
+      !Inicializando a interface
+      no shutdown
+
+      !Saindo de todos os níveis
+      end
+
+  !Salvando as configurações
+  copy running-config startup-config
+
+  !Visualizando as configurações
+  show running-config
+
+  !Visualizando as configurações de endereçamento IPv4
+  show ip interface brief
+
+  !Visualizando as informações de VLAN
+  show vlan brief
+
+  !Visualizando informações detalhadas da VLAN
+  show vlan id ???
+
+  =========================================================================================
+
+  enable
+       configure terminal
+
+
+    !Criação da VLAN padrão de SVI do Grupo
+    vlan 30
+      !Nome da VLAN padrão
+      name svig03
+
+    !Criação das VLANs dos Usuários do Grupo
+    vlan 31
+      name pedro
+    vlan ???
+      name ???Primeiro_Nome_do_Segundo_Aluno???
+    vlan ???
+      name ???Primeiro_Nome_do_Terceiro_Aluno???
+    vlan ???
+      name ???Primeiro_Nome_do_Quarto_Aluno???
+
+    !Criação da VLAN da Rede Sem-Fio
+    vlan ???
+      name wifi
+      exit
+
+    !OBSERVAÇÃO IMPORTANTE: a Interface fastEthernet 0/1 não será usada nesse projeto (Interface Reservada).
+
+    !Configurando a Interface de Acesso a VLAN do Primeiro Usuário
+    interface fastEthernet 0/2
+
+      !Configurando a Interface de Acesso a VLAN
+      description Interface de Acesso da VLAN ??? do ???Nome_E_Sobrenome_Primeiro_Usuário???
+
+      !Configurando o Modo de Acesso da Interface
+      switchport mode access
+
+      !Configurando o Acesso a VLAN
+      switchport access vlan ???
+
+      !Saindo da configuração da Interface
+      exit
+
+    !Configurando a Interface de Acesso a VLAN do Segundo Usuário
+    interface fastEthernet 0/3
+      description Interface de Acesso da VLAN ??? do ???Nome_E_Sobrenome_Segundo_Usuário???
+      switchport mode access
+      switchport access vlan ???
+      exit
+
+    !Configurando a Interface de Acesso a VLAN do Terceiro Usuário
+    interface fastEthernet 0/4
+      description Interface de Acesso da VLAN ??? do ???Nome_E_Sobrenome_Terceiro_Usuário???
+      switchport mode access
+      switchport access vlan ???
+      exit
+
+    !Configurando a Interface de Acesso a VLAN do Quarto Usuário
+    interface fastEthernet 0/5
+      description Interface de Acesso da VLAN ??? do ???Nome_E_Sobrenome_Quarto_Usuário???
+      switchport mode access
+      switchport access vlan ???
+      exit
+
+    !Configurando a Interface de Acesso a VLAN da Rede Sem-Fio (Wi-Fi/Wireless)
+    !OBSERVAÇÃO IMPORTANTE: A interface fastEthernet 0/6 sempre será utilizada para a VLAN
+    !da Rede Sem-Fio (Wi-Fi/Wireless) não alterar a porta.
+    interface fastEthernet 0/6
+      description Interface de Acesso da VLAN ???Wireless do Grupo-0???
+      switchport mode access
+      switchport access vlan ???
+      exit
+
+    !Desativando as Interfaces que não serão utilizadas no Switch Layer 3 3560
+    interface range fastEthernet 0/7 - 23
+      shutdown
+      exit
+
+    !Configurando a Interface de Trunk do Switch 3560 com o Router 2911
+    interface fastEthernet 0/24
+      description Interface de Trunk com o Router 2911 do Grupo-0???
+      switchport trunk encapsulation dot1q
+      switchport mode trunk
+    end
+
+  !Salvando as configurações
+  copy running-config startup-config
+
+  !Visualizando as configurações
+  show running-config
+
+  !Visualizando as configurações de endereçamento IPv4
+  show ip interface brief
+
+  !Visualizando as informações de VLAN
+  show vlan brief
+
+  !Visualizando informações de uma VLAN utilizando o ID
+  show vlan id ???
+
+  !Visualizando informações de uma VLAN utilizando o Nome
+  show vlan name ???
+
+  !Visualizando as informações de Status das Interfaces
+  show interface status
+
+  !Visualizando informações de Interfaces Trunk
+  show interface trunk
+
+  !Visualizando informações detalhadas das Interfaces de Trunk
+  show interfaces fastEthernet 0/24 status
+  show interfaces fastEthernet 0/24 switchport
+
+  !Comandos para testar a conexão do Switch 3560 com o Router 2911
+
+  !Pingando o endereço de SVI do Switch 3560
+  ping 172.16.???.253
+
+  !Pingando o endereço de Gateway da Subinterface do Router 2911 
+  ping 172.16.???.254
+
+  !Acessando via SSH o Router 2911 a partir do Switch 3560
+  !OBSERVAÇÃO: -l (éli não é o número "1" (um) e sim "l" (éli) em minúsculo)
+  ssh -l ???seu_usuário??? 172.16.???.254
