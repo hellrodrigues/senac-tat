@@ -1,0 +1,227 @@
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname rt-g03
+!
+boot-start-marker
+boot-end-marker
+!
+!
+security passwords min-length 8
+enable secret 4 D.ypdVr3FRhEsh3TDjrkDyDFbL3RbUr48j5o40PFfTA
+!
+no aaa new-model
+!
+ip cef
+!
+!
+!
+ip dhcp excluded-address 172.16.31.1 172.16.31.100
+ip dhcp excluded-address 172.16.31.200 172.16.31.254
+ip dhcp excluded-address 172.16.32.1 172.16.32.100
+ip dhcp excluded-address 172.16.32.200 172.16.32.254
+ip dhcp excluded-address 172.16.33.1 172.16.33.100
+ip dhcp excluded-address 172.16.33.200 172.16.33.254
+ip dhcp excluded-address 172.16.35.1 172.16.35.100
+ip dhcp excluded-address 172.16.35.200 172.16.35.254
+!
+ip dhcp pool vlan-31
+ network 172.16.31.0 255.255.255.0
+ default-router 172.16.31.254
+ dns-server 8.8.8.8 8.8.4.4
+ domain-name senac.br
+!
+ip dhcp pool vlan-32
+ network 172.16.32.0 255.255.255.0
+ default-router 172.16.32.254
+ dns-server 8.8.8.8 8.8.4.4
+ domain-name senac.br
+!
+ip dhcp pool vlan-33
+ network 172.16.33.0 255.255.255.0
+ default-router 172.16.33.254
+ dns-server 8.8.8.8 8.8.4.4
+ domain-name senac.br
+!
+ip dhcp pool vlan-35
+ network 172.16.35.0 255.255.255.0
+ default-router 172.16.35.254
+ dns-server 8.8.8.8 8.8.4.4
+ domain-name senac.br
+!
+!
+!
+no ip domain lookup
+ip domain name senac.br
+login block-for 120 attempts 4 within 60
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+license udi pid CISCO2911BR-SEC/K9 sn TSP1833AAUT
+!
+!
+username hellen privilege 15 secret 4 D.ypdVr3FRhEsh3TDjrkDyDFbL3RbUr48j5o40PFfTA
+username pedroh privilege 15 secret 4 D.ypdVr3FRhEsh3TDjrkDyDFbL3RbUr48j5o40PFfTA
+username dantas privilege 15 secret 4 D.ypdVr3FRhEsh3TDjrkDyDFbL3RbUr48j5o40PFfTA
+!
+redundancy
+!
+!
+!
+!
+!
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh version 2
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ description Interface de Loopback para ID do OSPF do Grupo-03
+ ip address 3.3.3.3 255.255.255.255
+!
+interface Embedded-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/0.30
+ description subInterfaceda VLAN de SVI do Switch Layer 3 3560 do Grupo-03
+ encapsulation dot1Q 30
+ ip address 172.16.30.254 255.255.255.0
+ no cdp enable
+!
+interface GigabitEthernet0/0.31
+ description subInterface da VLAN do PedroH
+ encapsulation dot1Q 31
+ ip address 172.16.31.254 255.255.255.0
+ no cdp enable
+!
+interface GigabitEthernet0/0.32
+ description subInterface da VLAN da Hellen
+ encapsulation dot1Q 32
+ ip address 172.16.32.254 255.255.255.0
+ no cdp enable
+!
+interface GigabitEthernet0/0.33
+ description subInterface da VLAN do Dantas
+ encapsulation dot1Q 33
+ ip address 172.16.33.254 255.255.255.0
+ no cdp enable
+!
+interface GigabitEthernet0/0.35
+ description subInterface da VLAN Wireless
+ encapsulation dot1Q 35
+ ip address 172.16.35.254 255.255.255.0
+ no cdp enable
+!
+interface GigabitEthernet0/1
+ description Interface de Acesso a Internet do Grupo-03
+ ip address dhcp
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ description interface serial do grupo-03 para grupo-04
+ bandwidth 2000
+ ip address 192.168.1.9 255.255.255.252
+ clock rate 2000000
+!
+interface Serial0/0/1
+ description interface serial do grupo-02 do grupo-03
+ bandwidth 2000
+ ip address 192.168.1.6 255.255.255.252
+!
+router ospf 3
+ router-id 3.3.3.3
+ log-adjacency-changes detail
+ auto-cost reference-bandwidth 10000
+ passive-interface GigabitEthernet0/0
+ passive-interface GigabitEthernet0/1
+ network 172.16.30.0 0.0.0.255 area 0
+ network 172.16.31.0 0.0.0.255 area 0
+ network 172.16.32.0 0.0.0.255 area 0
+ network 172.16.33.0 0.0.0.255 area 0
+ network 172.16.35.0 0.0.0.255 area 0
+ network 192.168.1.4 0.0.0.3 area 0
+ network 192.168.1.8 0.0.0.3 area 0
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+no cdp run
+!
+!
+!
+control-plane
+!
+!
+banner motd ^C  ('-.                  ('-.    .-')     .-')
+  ( OO ).-.            _(  OO)  ( OO ).  ( OO ).
+  / . --. /   .-----. (,------.(_)---\_)(_)---\_) .-'),-----.
+  | \-.  \   '  .--./  |  .---'/    _ | /    _ | ( OO'  .-.  '
+.-'-'  |  |  |  |('-.  |  |    \  :` `. \  :` `. /   |  | |  |
+ \| |_.'  | /_) |OO  )(|  '--.  '..`''.) '..`''.)\_) |  |\|  |
+  |  .-.  | ||  |`-'|  |  .--' .-._)   \.-._)   \  \ |  | |  |
+  |  | |  |(_'  '--'\  |  `---.\       /\       /   `'  '-'  '
+  `--' `--'   `-----'  `------' `-----'  `-----'      `-----'
+ _  .-')     ('-.    .-')    .-') _   _  .-')           .-') _
+( \( -O )  _(  OO)  ( OO ). (  OO) ) ( \( -O )         (  OO) )
+ ,------. (,------.(_)---\_)/     '._ ,------.  ,-.-') /     '._  .-'),-----.
+ |   /`. ' |  .---'/    _ | |'--...__)|   /`. ' |  |OO)|'--...__)( OO'  .-.  '
+ |  /  | | |  |    \  :` `. '--.  .--'|  /  | | |  |  \'--.  .--'/   |  | |  |
+ |  |_.' |(|  '--.  '..`''.)   |  |   |  |_.' | |  |(_/   |  |   \_) |  |\|  |
+ |  .  '.' |  .--' .-._)   \   |  |   |  .  '.',|  |_.'   |  |     \ |  | |  |
+ |  |\  \  |  `---.\       /   |  |   |  |\  \(_|  |      |  |      `'  '-'  '
+ `--' '--' `------' `-----'    `--'   `--' '--' `--'      `--'        `-----'
+
+^C
+!
+line con 0
+ exec-timeout 5 30
+ password 7 03550958261C24424F0A
+ logging synchronous
+ login local
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+ stopbits 1
+line vty 0 4
+ exec-timeout 5 30
+ password 7 055A545C015F4B071806
+ logging synchronous
+ login local
+ transport input ssh
+!
+scheduler allocate 20000 1000
+!
+end
